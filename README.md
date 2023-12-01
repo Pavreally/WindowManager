@@ -14,4 +14,14 @@
 1. Move the "FeaturePacks" and "Samples" folders to the root folder with installed UE v.5.3.2.
 2. Add MW files to your UE project.
 
+## How to use it?: 
 An interactive step-by-step tutorial on how to use WM can be found in the file: `BP_GameMode_WindowManager_demo`.
+
+Step 1:
+![Window Manager](./_Misc/Tutorial/Tutorial_1.jpg)
+
+Step 2:
+![Window Manager](./_Misc/Tutorial/Tutorial_2.jpg)
+
+Step 3:
+![Window Manager](./_Misc/Tutorial/Tutorial_3.jpg)
