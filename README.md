@@ -3,7 +3,7 @@
 # Window Manager
 
 ## Features:
-- Very fast UI customization in Unreal Engine!
+- Very fast UI logic customization in Unreal Engine!
 - Multi-level window support
 - Opening windows with replacement
 - System for important windows (blocks opening of insignificant UI windows)
