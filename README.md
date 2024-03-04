@@ -1,4 +1,4 @@
-![Window Manager](./Contentpack_Medium.png)
+![Window Manager](./_Misc/Preview.png)
 
 # Window Manager
 
