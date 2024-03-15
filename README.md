@@ -10,6 +10,7 @@ Blueprints and C++ versions will allow you to apply the most appropriate and con
 - A function in C++ has been created. A shared variable was created, for interchangeability of BP and C++ version functions.
 - Child widgets in containers are now not indexed in memory, for more flexibility.
 - Fixed cursor visibility disappearing after closing the widget if multiple windows are open in a row.
+- Controller support
 
 ## What it's for:
 - Control important windows so that they are not blocked by anything
