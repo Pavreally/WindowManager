@@ -33,7 +33,7 @@ You must first install the C++ version, as it contains the necessary data struct
 ### Install C++ Version WM
 1. Make sure you have a compiled C++ project in Unreal Engine and close UE Editor
 2. Copy the contents of "WindowManager_Version_CPP" with the WM function library to your C++ folder. Default: "/YourProject/Source/YourProjectName/"
-3. Open the file in this folder file "YourProjectName.Build.cs" and add "UMG" to the "PublicDependencyModuleNames" line
+3. Open the file in this folder file "YourProjectName.Build.cs" and add "UMG" to the "PublicDependencyModuleNames" line.<br>
 Example: `PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG" });`
 4. Start compiling your project with the UE Editor closed. If errors appear, open the UE Editor and refresh the project files using the item in the top menu: "Tools > Refresh Visual Studio Code Project", then close the editor and repeat the compilation
 5. Done! Now you can install the files with the examples and the demo level
