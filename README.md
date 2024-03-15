@@ -24,8 +24,7 @@ Blueprints and C++ versions will allow you to apply the most appropriate and con
 - Multi-level window support
 - Opening windows with replacement
 - System for important windows (blocks opening of insignificant UI windows)
-- Support adding child windows without replacement
-- Support adding child windows with target content replacement
+- Support adding child windows
 
 ## Install:
 You must first install the C++ version, as it contains the necessary data structure.
