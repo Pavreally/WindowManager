@@ -59,6 +59,7 @@ void UWindowManager::WindowManagerCpp(
 
 			if (!ChildContainer)
 			{
+				// Create a Widget and Adding it to an Array
 				AddWidgetToViewport(OwningController, ArrayWindowsActive, WidgetClass, bShowCursor, bFocusViewport, ZOrder);
 
 				// Changing the Visibility of the Cursor
@@ -66,7 +67,6 @@ void UWindowManager::WindowManagerCpp(
 			}
 			else
 			{
-				// Create a Widget and Adding it to an Array
 				AddChildWidget(OwningController, WidgetClass, ChildContainer);
 			}
 		}
