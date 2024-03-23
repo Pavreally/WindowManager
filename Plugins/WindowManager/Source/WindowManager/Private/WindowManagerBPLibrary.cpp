@@ -1,12 +1,14 @@
-// UE5.3. 2024. Pavel Gornostaev <pavreally@gmail.com>
+// Copyright Epic Games, Inc. All Rights Reserved.
 
+#include "WindowManagerBPLibrary.h"
 #include "WindowManager.h"
 
-#include "Blueprint/UserWidget.h"
 #include "Components/PanelWidget.h"
-#include "GameFramework/PlayerController.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
+#include "GameFramework/PlayerController.h"
+#include "Engine/Engine.h"
+#include "Engine/GameViewportClient.h"
 
 /**
 	* Simplifies window management.
@@ -25,7 +27,7 @@
 	* @param ReturnWindowsActive returns an updated list of open widgets
 	* @param bReturnWindowsOpened returns information about at least one open widget with WM
 	*/
-void UWindowManager::WindowManagerCpp(
+void UWindowManagerBPLibrary::WindowManagerCpp(
 	TArray<FWidgetsParent> ArrayWindowsActive,
 	bool bWindowsOpened,
 	bool bActionOpen,
@@ -59,7 +61,6 @@ void UWindowManager::WindowManagerCpp(
 
 			if (!ChildContainer)
 			{
-				// Create a Widget and Adding it to an Array
 				AddWidgetToViewport(OwningController, ArrayWindowsActive, WidgetClass, bShowCursor, bFocusViewport, ZOrder);
 
 				// Changing the Visibility of the Cursor
@@ -67,6 +68,7 @@ void UWindowManager::WindowManagerCpp(
 			}
 			else
 			{
+				// Create a Widget and Adding it to an Array
 				AddChildWidget(OwningController, WidgetClass, ChildContainer);
 			}
 		}
@@ -102,21 +104,23 @@ void UWindowManager::WindowManagerCpp(
 	else if (!ChildContainer && bActionCloseAll == true)
 	{
 		// Remove All Widgets
+		if (UGameViewportClient* ViewportClient = GEngine->GameViewport)
+		{
+			UWidgetLayoutLibrary::RemoveAllWidgets(ViewportClient->GetWorld());
+		}
 
 		// Checking Open Widgets
 		if (!ArrayWindowsActive.IsEmpty())
 		{
-			UWidgetLayoutLibrary::RemoveAllWidgets(GEngine->GameViewport->GetWorld());
-
 			// Clearing the Widget Storage
 			ArrayWindowsActive.Empty();
 			bWindowsOpened = false;
+		}
 
-			// Focus to Game Viewport
-			if (bFocusViewport == true)
-			{
-				UWidgetBlueprintLibrary::SetFocusToGameViewport();
-			}
+		// Focus to Game Viewport
+		if (bFocusViewport == true)
+		{
+			UWidgetBlueprintLibrary::SetFocusToGameViewport();
 		}
 
 		// Changing the Visibility of the Cursor
@@ -139,7 +143,7 @@ void UWindowManager::WindowManagerCpp(
 }
 
 // Creating and Adding Widget to Viewport
-void UWindowManager::AddWidgetToViewport(APlayerController* OwningController, TArray<FWidgetsParent>& ArrayWindowsActive, TSubclassOf<UUserWidget> TargetWidgetClass, bool bShowCursor, bool bFocusViewport, int32 TargetZOrder)
+void UWindowManagerBPLibrary::AddWidgetToViewport(APlayerController* OwningController, TArray<FWidgetsParent>& ArrayWindowsActive, TSubclassOf<UUserWidget> TargetWidgetClass, bool bShowCursor, bool bFocusViewport, int32 TargetZOrder)
 {
 	UUserWidget* NewWidget = CreateWidget<UUserWidget>(OwningController, TargetWidgetClass, *TargetWidgetClass->GetName());
 
@@ -163,9 +167,9 @@ void UWindowManager::AddWidgetToViewport(APlayerController* OwningController, TA
 }
 
 // Adding Target Parent Widget to Array
-void UWindowManager::AddParentWidgetInArray(UUserWidget* NewWidget, TArray<FWidgetsParent>& ArrayWindowsActive, TSubclassOf<UUserWidget> TargetWidgetClass)
+void UWindowManagerBPLibrary::AddParentWidgetInArray(UUserWidget* NewWidget, TArray<FWidgetsParent>& ArrayWindowsActive, TSubclassOf<UUserWidget> TargetWidgetClass)
 {
-	FString NewWidgetName = TargetWidgetClass->GetDisplayNameText().ToString();
+	FString NewWidgetName = TargetWidgetClass->GetName();
 
 	// Adding Stucture in Widgets Array
 	FWidgetsParent StructParentWidgets;
@@ -178,7 +182,7 @@ void UWindowManager::AddParentWidgetInArray(UUserWidget* NewWidget, TArray<FWidg
 }
 
 // Adding a Child Widget to the Container
-void UWindowManager::AddChildWidget(APlayerController* OwningController, TSubclassOf<UUserWidget> TargetWidgetClass, UPanelWidget* ChildContainer)
+void UWindowManagerBPLibrary::AddChildWidget(APlayerController* OwningController, TSubclassOf<UUserWidget> TargetWidgetClass, UPanelWidget* ChildContainer)
 {
 	UUserWidget* ChildWidget = CreateWidget<UUserWidget>(OwningController, TargetWidgetClass, *TargetWidgetClass->GetName());
 
@@ -189,7 +193,7 @@ void UWindowManager::AddChildWidget(APlayerController* OwningController, TSubcla
 }
 
 // Remove the Last Opening Widget
-void UWindowManager::RemoveWidgetLast(APlayerController* OwningController, TArray<FWidgetsParent>& ArrayWindowsActive, bool bShowCursor, bool bFocusViewport)
+void UWindowManagerBPLibrary::RemoveWidgetLast(APlayerController* OwningController, TArray<FWidgetsParent>& ArrayWindowsActive, bool bShowCursor, bool bFocusViewport)
 {
 	UUserWidget* LastWidget = ArrayWindowsActive.Last().WidgetObjectRef;
 
@@ -209,13 +213,13 @@ void UWindowManager::RemoveWidgetLast(APlayerController* OwningController, TArra
 }
 
 // Checking for Duplicate Widgets
-bool UWindowManager::CheckDuplicateWidgets(TArray<FWidgetsParent> ArrayWindowsActive, TSubclassOf<UUserWidget> WidgetClass, UPanelWidget* ChildContainer)
+bool UWindowManagerBPLibrary::CheckDuplicateWidgets(TArray<FWidgetsParent> ArrayWindowsActive, TSubclassOf<UUserWidget> TargetWidgetClass, UPanelWidget* ChildContainer)
 {
 	if (!ChildContainer)
 	{
 		for (FWidgetsParent Item : ArrayWindowsActive)
 		{
-			if (Item.WidgetName == WidgetClass->GetDisplayNameText().ToString())
+			if (Item.WidgetName == TargetWidgetClass->GetName())
 			{
 				return true;
 			}
@@ -226,7 +230,7 @@ bool UWindowManager::CheckDuplicateWidgets(TArray<FWidgetsParent> ArrayWindowsAc
 }
 
 // Corrects the Invisibility of the Cursor if it has Not Been Offset
-void UWindowManager::FixShowingMouseCursor(APlayerController* OwningController)
+void UWindowManagerBPLibrary::FixShowingMouseCursor(APlayerController* OwningController)
 {
 	if (OwningController)
 	{

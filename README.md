@@ -1,16 +1,16 @@
 ![Window Manager](./_Misc/Preview.png)
 
 # Window Manager
-This is a versatile feature that can help in quickly customizing the interface (UMG) logic in Unreal Engine 5. 
+`BETA`
+A plugin containing a versatile feature that will help you quickly customize interface logic using UMG in Unreal Engine 5. 
 Blueprints and C++ versions will allow you to apply the most appropriate and convenient way of integration into your projects.
 
 # Latest Updates
-`Version 1.1`
-- Code refactoring. Simplification of logic and data array.
-- A function in C++ has been created. A shared variable was created, for interchangeability of BP and C++ version functions.
-- Child widgets in containers are now not indexed in memory, for more flexibility.
-- Fixed cursor visibility disappearing after closing the widget if multiple windows are open in a row.
-- Controller support.
+`Version 1.3`
+- Refactoring C++ and BP code.
+- Features converted into a plugin for easier installation.
+- Now when deleting all widgets, you don't necessarily have to have a widget open with WM.
+- The plugin was pre-packaged on Win64 and Android only.
 
 ## What it's for:
 - Control important windows so that they are not blocked by anything.
@@ -27,27 +27,14 @@ Blueprints and C++ versions will allow you to apply the most appropriate and con
 - Support adding child windows.
 
 ## Install:
-You must first install the C++ version, as it contains the necessary data structure.
-
-### Install C++ Version WM
-1. Make sure you have a compiled C++ project in Unreal Engine and close UE Editor.
-2. Copy the contents of "WindowManager_Version_CPP" with the WM function library to your C++ folder. Default: "/YourProject/Source/YourProjectName/".
-3. Open the file in this folder file "YourProjectName.Build.cs" and add "UMG" to the "PublicDependencyModuleNames" line.<br>
-Example: `PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "UMG" });`
-4. Start compiling your project with the UE Editor closed. If errors appear, open the UE Editor and refresh the project files using the item in the top menu: "Tools > Refresh Visual Studio Code Project", then close the editor and repeat the compilation.
-5. Done! Now you can install the files with the examples and the demo level.
-
-(Next: Install Test Level and BP Version)
-
-### Install Test Level and BP Version
-1. Move the "FeaturePacks" and "Samples" folders to the root folder with installed UE v.5.3.
-2. Open the UE Editor and add the WM content files to your UE project.
-3. In the UE browser, find the file: "BP_PlayerController_WindowManager_demo".
-4. If the structure reference breaks, recreate the array. By default, the structure is called "Widgets Parent". If you are going to modify the WM function with Blueprint, you should also fix all references in the "BP_WindowManager_Library" file or just delete it.
-5. Now you can open the "L_WM_PreviewMap" level and test the operation of the window manager.
+1. Close Unreal Engine 5.3.
+2. Move the "Plugins" folder to the root folder of your created project.
+3. Run your project to which the "Plugins" folder with WM was added. If a message about restoring the module appears, select "Yes".
+4. Done! The Window Manager folders should appear in the Unreal Engine browser and the plugin should be automatically activated. If the plugin folder is not visible, activate visibility through the browser settings: `Settings > Show Plugin Content`.
+5. Run the `L_WM_PreviewMap` test level, which is located in the Window Manager Content folder with the test files, and verify that the function works in C++.
 
 ## How to use it?: 
-An interactive step-by-step tutorial on how to use WM can be found in the file: `BP_PlayerController_WindowManager_demo`.
+An interactive step-by-step tutorial on how to use WM can be found in the file: `BP_PlayerController_WindowManager_demo`, which is located at the path `Plugins\Window Manager Content\DemoFiles\BP\`.
 
 ![Window Manager](./_Misc/Tutorial/Tutorial_1.jpg)
 ![Window Manager](./_Misc/Tutorial/Tutorial_2.jpg)
@@ -56,16 +43,16 @@ An interactive step-by-step tutorial on how to use WM can be found in the file: 
 All sources contain self-documenting code. C++ and BP functions are completely identical and interchangeable.
 
 Description of the main parameters of the main function:<br>
-`TArray<FWidgetsParent> ArrayWindowsActive` - stores active widgets and their names<br>
-`bool bWindowsOpened` - stores information about at least one open widget with WM<br>
-`bool bActionOpen` - specifies the action of adding the widget (true) or closing it (false)<br>
-`bool bActionCloseAll` - closes all created widgets<br>
-`TSubclassOf<UUserWidget> WidgetClass` - target widget<br>
-`APlayerController* OwningController` - owning player controller<br>
-`bool bIsReplaced` - whether the last open widget will be replaced by a new one<br>
-`bool bShowCursor` - show cursor<br>
-`bool bFocusViewport` - keeps focus on the viewport<br>
-`int32 ZOrder` - adjusts the display priority of the widget layer<br>
-`UPanelWidget* ChildContainer` - target container where the widget will be embedded (can be empty)<br>
-`TArray<FWidgetsParent>& ReturnWindowsActive` - returns an updated list of open widgets<br>
-`bool& bReturnWindowsOpened` - returns information about at least one open widget with WM<br>
+TArray<FWidgetsParent> `ArrayWindowsActive` - stores active widgets and their names<br>
+bool `bWindowsOpened` - stores information about at least one open widget with WM<br>
+bool `bActionOpen` - specifies the action of adding the widget (true) or closing it (false)<br>
+bool `bActionCloseAll` - closes all created widgets<br>
+TSubclassOf<UUserWidget> `WidgetClass` - target widget<br>
+APlayerController* `OwningController` - owning player controller<br>
+bool `bIsReplaced` - whether the last open widget will be replaced by a new one<br>
+bool `bShowCursor` - show cursor<br>
+bool `bFocusViewport` - keeps focus on the viewport<br>
+int32 `ZOrder` - adjusts the display priority of the widget layer<br>
+UPanelWidget* `ChildContainer` - target container where the widget will be embedded (can be empty)<br>
+TArray<FWidgetsParent>& `ReturnWindowsActive` - returns an updated list of open widgets<br>
+bool& `bReturnWindowsOpened` - returns information about at least one open widget with WM<br>

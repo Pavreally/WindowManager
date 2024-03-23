@@ -1,4 +1,4 @@
-// UE5.3. 2024. Pavel Gornostaev <pavreally@gmail.com>
+// Copyright Epic Games, Inc. All Rights Reserved.
 
 /**
  * This feature will help you quickly set up secure logic for UI.
@@ -18,9 +18,9 @@
 
 #include "CoreMinimal.h"
 #include "Kismet/BlueprintFunctionLibrary.h"
-#include "WindowManager.generated.h"
+#include "Blueprint/UserWidget.h"
+#include "WindowManagerBPLibrary.generated.h"
 
-class UUserWidget;
 class UPanelWidget;
 class APlayerController;
 
@@ -31,10 +31,10 @@ struct FWidgetsParent
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Window Manager")
 	UUserWidget* WidgetObjectRef;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Window Manager")
 	FString WidgetName;
 };
 
@@ -42,13 +42,13 @@ public:
  * WindowManager Function Library Class
  */
 UCLASS()
-class UWindowManager : public UBlueprintFunctionLibrary
+class UWindowManagerBPLibrary : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 
 public:
 	// Simplifies window management.
-	UFUNCTION(BlueprintCallable, Category = "Window Manager")
+	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Window Manager", Keywords = "WindowManager, UI, Widget"), Category = "Window Manager")
 	static void WindowManagerCpp(
 		TArray<FWidgetsParent> InputWindowsActive,
 		bool InputWindowsOpened,
@@ -94,7 +94,7 @@ private:
 		);
 
 	UFUNCTION()
-	static bool CheckDuplicateWidgets(TArray<FWidgetsParent> ArrayWindowsActive, TSubclassOf<UUserWidget> WidgetClass, UPanelWidget* ChildContainer);
+	static bool CheckDuplicateWidgets(TArray<FWidgetsParent> ArrayWindowsActive, TSubclassOf<UUserWidget> TargetWidgetClass, UPanelWidget* ChildContainer);
 
 	// Corrects the Invisibility of the Cursor if it has Not Been Offset
 	UFUNCTION()
