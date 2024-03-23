@@ -1,7 +1,7 @@
 ![Window Manager](./_Misc/Preview.png)
 
 # Window Manager
-`BETA`
+`BETA`<br><br>
 A plugin containing a versatile feature that will help you quickly customize interface logic using UMG in Unreal Engine 5. 
 Blueprints and C++ versions will allow you to apply the most appropriate and convenient way of integration into your projects.
 
@@ -27,7 +27,7 @@ Blueprints and C++ versions will allow you to apply the most appropriate and con
 - Support adding child windows.
 
 ## Install:
-1. Close Unreal Engine 5.3.
+1. Make sure the Unreal Engine 5.3 editor is closed.
 2. Move the "Plugins" folder to the root folder of your created project.
 3. Run your project to which the "Plugins" folder with WM was added. If a message about restoring the module appears, select "Yes".
 4. Done! The Window Manager folders should appear in the Unreal Engine browser and the plugin should be automatically activated. If the plugin folder is not visible, activate visibility through the browser settings: `Settings > Show Plugin Content`.
@@ -43,16 +43,16 @@ An interactive step-by-step tutorial on how to use WM can be found in the file: 
 All sources contain self-documenting code. C++ and BP functions are completely identical and interchangeable.
 
 Description of the main parameters of the main function:<br>
-TArray<FWidgetsParent> `ArrayWindowsActive` - stores active widgets and their names<br>
-bool `bWindowsOpened` - stores information about at least one open widget with WM<br>
-bool `bActionOpen` - specifies the action of adding the widget (true) or closing it (false)<br>
-bool `bActionCloseAll` - closes all created widgets<br>
-TSubclassOf<UUserWidget> `WidgetClass` - target widget<br>
-APlayerController* `OwningController` - owning player controller<br>
-bool `bIsReplaced` - whether the last open widget will be replaced by a new one<br>
-bool `bShowCursor` - show cursor<br>
-bool `bFocusViewport` - keeps focus on the viewport<br>
-int32 `ZOrder` - adjusts the display priority of the widget layer<br>
-UPanelWidget* `ChildContainer` - target container where the widget will be embedded (can be empty)<br>
-TArray<FWidgetsParent>& `ReturnWindowsActive` - returns an updated list of open widgets<br>
-bool& `bReturnWindowsOpened` - returns information about at least one open widget with WM<br>
+`TArray<FWidgetsParent> ArrayWindowsActive` - stores active widgets and their names.<br>
+`bool bWindowsOpened` - stores information about at least one open widget with WM.<br>
+`bool bActionOpen` - specifies the action of adding the widget (true) or closing it (false).<br>
+`bool bActionCloseAll` - closes all created widgets.<br>
+`TSubclassOf<UUserWidget> WidgetClass` - target widget.<br>
+`APlayerController* OwningController` - owning player controller.<br>
+`bool bIsReplaced` - whether the last open widget will be replaced by a new one.<br>
+`bool bShowCursor` - show cursor.<br>
+`bool bFocusViewport` - keeps focus on the viewport.<br>
+`int32 ZOrder` - adjusts the display priority of the widget layer.<br>
+`UPanelWidget* ChildContainer` - target container where the widget will be embedded (can be empty).<br>
+`TArray<FWidgetsParent>& ReturnWindowsActive` - returns an updated list of open widgets.<br>
+`bool& bReturnWindowsOpened` - returns information about at least one open widget with WM.<br>
