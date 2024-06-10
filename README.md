@@ -27,7 +27,7 @@ Blueprints and C++ versions will allow you to apply the most appropriate and con
 - Support adding child windows.
 
 ## Install:
-1. Make sure the Unreal Engine 5.3 editor is closed.
+1. Make sure the Unreal Engine editor is closed.
 2. Move the "Plugins" folder to the root folder of your created project.
 3. Run your project to which the "Plugins" folder with WM was added. If a message about restoring the module appears, select "Yes".
 4. Done! The Window Manager folders should appear in the Unreal Engine browser and the plugin should be automatically activated. If the plugin folder is not visible, activate visibility through the browser settings: `Settings > Show Plugin Content`.
