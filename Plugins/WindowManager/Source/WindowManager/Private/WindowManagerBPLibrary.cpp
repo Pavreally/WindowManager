@@ -13,8 +13,8 @@
 /**
 	* Simplifies window management.
 	* 
-	* @param ArrayWindowsActive stores active widgets and their names
-	* @param bWindowsOpened stores information about at least one open widget with WM
+	* @param ArrayWidgetsRef stores active widgets and their names
+	* @param bWidgetsOpened stores information about at least one open widget with WM
 	* @param bActionOpen specifies the action of adding the widget (true) or closing it (false)
 	* @param bActionCloseAll closes all created widgets
 	* @param WidgetClass target widget
@@ -24,12 +24,12 @@
 	* @param bFocusViewport keeps focus on the viewport
 	* @param ZOrder adjusts the display priority of the widget layer
 	* @param ChildContainer target container where the widget will be embedded (can be empty)
-	* @param ReturnWindowsActive returns an updated list of open widgets
-	* @param bReturnWindowsOpened returns information about at least one open widget with WM
+	* @param ReturnArrayWidgetsRef returns an updated list of open widgets
+	* @param bReturnWidgetsOpened returns information about at least one open widget with WM
 	*/
 void UWindowManagerBPLibrary::WindowManagerCpp(
-	TArray<FWidgetsParent> ArrayWindowsActive,
-	bool bWindowsOpened,
+	TArray<UUserWidget*> ArrayWidgetsRef,
+	bool bWidgetsOpened,
 	bool bActionOpen,
 	bool bActionCloseAll,
 	TSubclassOf<UUserWidget> WidgetClass,
@@ -39,29 +39,24 @@ void UWindowManagerBPLibrary::WindowManagerCpp(
 	bool bFocusViewport,
 	int32 ZOrder,
 	UPanelWidget* ChildContainer,
-	TArray<FWidgetsParent> &ReturnWindowsActive,
-	bool &bReturnWindowsOpened)
+	TArray<UUserWidget*> &ReturnArrayWidgetsRef,
+	bool &bReturnWidgetsOpened)
 {
 	if (WidgetClass && bActionOpen == true && bActionCloseAll == false)
 	{
-		// Add Widget
-
-		bool IsDuplicate = CheckDuplicateWidgets(ArrayWindowsActive, WidgetClass, ChildContainer);
+		bool IsDuplicate = CheckDuplicateWidgets(ArrayWidgetsRef, WidgetClass, ChildContainer);
 
 		if (IsDuplicate == false)
 		{
 			// Remove the Last Window to Replace It
-			if (bIsReplaced == true)
+			if (bIsReplaced == true && !ArrayWidgetsRef.IsEmpty())
 			{
-				if (!ArrayWindowsActive.IsEmpty())
-				{
-					RemoveWidgetLast(OwningController, ArrayWindowsActive, bShowCursor, bFocusViewport);
-				}
+				RemoveWidget(OwningController, ArrayWidgetsRef, WidgetClass, bShowCursor, bFocusViewport, bActionOpen);
 			}
 
 			if (!ChildContainer)
 			{
-				AddWidgetToViewport(OwningController, ArrayWindowsActive, WidgetClass, bShowCursor, bFocusViewport, ZOrder);
+				AddWidgetToViewport(OwningController, ArrayWidgetsRef, WidgetClass, bShowCursor, bFocusViewport, ZOrder);
 
 				// Changing the Visibility of the Cursor
 				OwningController->bShowMouseCursor = bShowCursor;
@@ -74,28 +69,28 @@ void UWindowManagerBPLibrary::WindowManagerCpp(
 		}
 
 		// Report if at Least One Window is Open
-		if (!ArrayWindowsActive.IsEmpty())
+		if (!ArrayWidgetsRef.IsEmpty())
 		{
-			bWindowsOpened = true;
+			bWidgetsOpened = true;
 		}
 	}
 	else if (!ChildContainer && bActionOpen == false && bActionCloseAll == false)
 	{
-		// Remove Widget
-
+		// Removing a Target Widget
 		// Remove the Last Opening Widget from the Viewport and Widgets Array
-		if (!ArrayWindowsActive.IsEmpty())
+		if (!ArrayWidgetsRef.IsEmpty())
 		{
-			RemoveWidgetLast(OwningController, ArrayWindowsActive, bShowCursor, bFocusViewport);
 
-			// If there are No Open Windows Left
-			if (ArrayWindowsActive.IsEmpty())
+			RemoveWidget(OwningController, ArrayWidgetsRef, WidgetClass, bShowCursor, bFocusViewport, bActionOpen);
+
+			// If there are No Open Widgets Left
+			if (ArrayWidgetsRef.IsEmpty())
 			{
-				bWindowsOpened = false;
+				bWidgetsOpened = false;
 			}
 		}
 
-		if (!ArrayWindowsActive.IsValidIndex(ArrayWindowsActive.Num() - 1))
+		if (!ArrayWidgetsRef.IsValidIndex(ArrayWidgetsRef.Num() - 1))
 		{
 			// Changing the Visibility of the Cursor
 			OwningController->bShowMouseCursor = bShowCursor;
@@ -110,11 +105,11 @@ void UWindowManagerBPLibrary::WindowManagerCpp(
 		}
 
 		// Checking Open Widgets
-		if (!ArrayWindowsActive.IsEmpty())
+		if (!ArrayWidgetsRef.IsEmpty())
 		{
 			// Clearing the Widget Storage
-			ArrayWindowsActive.Empty();
-			bWindowsOpened = false;
+			ArrayWidgetsRef.Empty();
+			bWidgetsOpened = false;
 		}
 
 		// Focus to Game Viewport
@@ -138,12 +133,12 @@ void UWindowManagerBPLibrary::WindowManagerCpp(
 	}
 
 	// Output Data (Return Function Data)
-	ReturnWindowsActive = ArrayWindowsActive;
-	bReturnWindowsOpened = bWindowsOpened;
+	ReturnArrayWidgetsRef = ArrayWidgetsRef;
+	bReturnWidgetsOpened = bWidgetsOpened;
 }
 
 // Creating and Adding Widget to Viewport
-void UWindowManagerBPLibrary::AddWidgetToViewport(APlayerController* OwningController, TArray<FWidgetsParent>& ArrayWindowsActive, TSubclassOf<UUserWidget> TargetWidgetClass, bool bShowCursor, bool bFocusViewport, int32 TargetZOrder)
+void UWindowManagerBPLibrary::AddWidgetToViewport(APlayerController* OwningController, TArray<UUserWidget*>& ArrayWidgetsRef, TSubclassOf<UUserWidget> TargetWidgetClass, bool bShowCursor, bool bFocusViewport, int32 TargetZOrder)
 {
 	UUserWidget* NewWidget = CreateWidget<UUserWidget>(OwningController, TargetWidgetClass, *TargetWidgetClass->GetName());
 
@@ -153,7 +148,7 @@ void UWindowManagerBPLibrary::AddWidgetToViewport(APlayerController* OwningContr
 		NewWidget->AddToViewport(TargetZOrder);
 
 		// Storing a List of Parent Widgets
-		AddParentWidgetInArray(NewWidget, ArrayWindowsActive, TargetWidgetClass);
+		AddParentWidgetInArray(NewWidget, ArrayWidgetsRef);
 	}
 
 	// Set Focus to Widget
@@ -167,18 +162,12 @@ void UWindowManagerBPLibrary::AddWidgetToViewport(APlayerController* OwningContr
 }
 
 // Adding Target Parent Widget to Array
-void UWindowManagerBPLibrary::AddParentWidgetInArray(UUserWidget* NewWidget, TArray<FWidgetsParent>& ArrayWindowsActive, TSubclassOf<UUserWidget> TargetWidgetClass)
+void UWindowManagerBPLibrary::AddParentWidgetInArray(UUserWidget* NewWidget, TArray<UUserWidget*>& ArrayWidgetsRef)
 {
-	FString NewWidgetName = TargetWidgetClass->GetName();
-
-	// Adding Stucture in Widgets Array
-	FWidgetsParent StructParentWidgets;
-	ArrayWindowsActive.Add(
-		FWidgetsParent {
-			StructParentWidgets.WidgetObjectRef = NewWidget,
-			StructParentWidgets.WidgetName = NewWidgetName
-		}
-	);
+	if (NewWidget)
+	{
+		ArrayWidgetsRef.Add(NewWidget);
+	}
 }
 
 // Adding a Child Widget to the Container
@@ -193,33 +182,52 @@ void UWindowManagerBPLibrary::AddChildWidget(APlayerController* OwningController
 }
 
 // Remove the Last Opening Widget
-void UWindowManagerBPLibrary::RemoveWidgetLast(APlayerController* OwningController, TArray<FWidgetsParent>& ArrayWindowsActive, bool bShowCursor, bool bFocusViewport)
+void UWindowManagerBPLibrary::RemoveWidget(APlayerController* OwningController, TArray<UUserWidget*>& ArrayWidgetsRef, TSubclassOf<UUserWidget> TargetWidgetClass, bool bShowCursor, bool bFocusViewport, bool ActionOpen)
 {
-	UUserWidget* LastWidget = ArrayWindowsActive.Last().WidgetObjectRef;
-
-	if (LastWidget)
+	if (TargetWidgetClass && ActionOpen == false)
 	{
-		LastWidget->RemoveFromParent();
-	
-		// Removing the Last Element in an Array
-		ArrayWindowsActive.RemoveAt(ArrayWindowsActive.Num() - 1);
-
-		// Focus to Game Viewport
-		if (bFocusViewport == true)
+		int32 CountWidgets = 0;
+		
+		for (UUserWidget* Widget : ArrayWidgetsRef)
 		{
-			UWidgetBlueprintLibrary::SetFocusToGameViewport();
+			CountWidgets++;
+
+			if (Widget->GetName() == TargetWidgetClass->GetName())
+			{
+				ArrayWidgetsRef.RemoveAt(CountWidgets - 1);
+				Widget->RemoveFromParent();
+				break;
+			}
 		}
+	}
+	else
+	{
+		UUserWidget* LastWidget = ArrayWidgetsRef.Last();
+
+		if (LastWidget)
+		{
+			LastWidget->RemoveFromParent();
+
+			// Removing the Last Element in an Array
+			ArrayWidgetsRef.RemoveAt(ArrayWidgetsRef.Num() - 1);
+		}
+	}
+
+	// Focus to Game Viewport
+	if (bFocusViewport == true)
+	{
+		UWidgetBlueprintLibrary::SetFocusToGameViewport();
 	}
 }
 
 // Checking for Duplicate Widgets
-bool UWindowManagerBPLibrary::CheckDuplicateWidgets(TArray<FWidgetsParent> ArrayWindowsActive, TSubclassOf<UUserWidget> TargetWidgetClass, UPanelWidget* ChildContainer)
+bool UWindowManagerBPLibrary::CheckDuplicateWidgets(TArray<UUserWidget*>& ArrayWidgetsRef, TSubclassOf<UUserWidget> TargetWidgetClass, UPanelWidget* ChildContainer)
 {
 	if (!ChildContainer)
 	{
-		for (FWidgetsParent Item : ArrayWindowsActive)
+		for (UUserWidget* Item : ArrayWidgetsRef)
 		{
-			if (Item.WidgetName == TargetWidgetClass->GetName())
+			if (Item->GetName() == TargetWidgetClass->GetName())
 			{
 				return true;
 			}

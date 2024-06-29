@@ -4,14 +4,14 @@
  * This feature will help you quickly set up secure logic for UI.
  * 
  * Features:
- * - Control important windows so that they are not blocked by anything;
- * - Simplify the logic on how to customize composite windows;
- * - Control the focus of windows without adding repetitive logic;
+ * - Control important Widgets so that they are not blocked by anything;
+ * - Simplify the logic on how to customize composite Widgets;
+ * - Control the focus of Widgets without adding repetitive logic;
  * - Control the cursor display at the same time;
- * - Easily add child windows to the parent widget container.
+ * - Easily add child Widgets to the parent widget container.
  * 
  * ----------------------------------------------------------------------
- * Don't forget to add "UMG" in the dependencies for the project file "YouProjectName.Build.cs".
+ * Warning! Don't forget to add "UMG" in the dependencies for the project file "YouProjectName.Build.cs".
  */
 
 #pragma once
@@ -23,20 +23,6 @@
 
 class UPanelWidget;
 class APlayerController;
-
-// Creating Structures for Storing Widgets
-USTRUCT(BlueprintType)
-struct FWidgetsParent
-{
-	GENERATED_BODY()
-
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Window Manager")
-	UUserWidget* WidgetObjectRef;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Window Manager")
-	FString WidgetName;
-};
 
 /**
  * WindowManager Function Library Class
@@ -50,8 +36,8 @@ public:
 	// Simplifies window management.
 	UFUNCTION(BlueprintCallable, meta = (DisplayName = "Window Manager", Keywords = "WindowManager, UI, Widget"), Category = "Window Manager")
 	static void WindowManagerCpp(
-		TArray<FWidgetsParent> InputWindowsActive,
-		bool InputWindowsOpened,
+		TArray<UUserWidget*> WidgetsRef,
+		bool WidgetsOpened,
 		bool ActionOpen,
 		bool ActionCloseAll,
 		TSubclassOf<UUserWidget> WidgetClass,
@@ -61,14 +47,14 @@ public:
 		bool FocusViewport,
 		int32 ZOrder,
 		UPanelWidget* ChildContainer,
-		TArray<FWidgetsParent> &ReturnWindowsActive,
-		bool &ReturnWindowsOpened);
+		TArray<UUserWidget*> &ReturnWidgetsRef,
+		bool &ReturnWidgetsOpened);
 
 private:
 	UFUNCTION()
 	static void AddWidgetToViewport(
 		APlayerController* OwningController,
-		TArray<FWidgetsParent>& ArrayWindowsActive,
+		TArray<UUserWidget*>& WidgetsRef,
 		TSubclassOf<UUserWidget> TargetWidgetClass,
 		bool ShowCursor,
 		bool FocusViewport,
@@ -76,7 +62,7 @@ private:
 		);
 
 	UFUNCTION()
-	static void AddParentWidgetInArray(UUserWidget* NewWidget, TArray<FWidgetsParent>& ArrayWindowsActive, TSubclassOf<UUserWidget> TargetWidgetClass);
+	static void AddParentWidgetInArray(UUserWidget* NewWidget, TArray<UUserWidget*>& WidgetsRef);
 
 	UFUNCTION()
 	static void AddChildWidget(
@@ -86,15 +72,17 @@ private:
 		);
 
 	UFUNCTION()
-	static void RemoveWidgetLast(
+	static void RemoveWidget(
 		APlayerController* OwningController,
-		TArray<FWidgetsParent>& ArrayWindowsActive,
+		TArray<UUserWidget*>& WidgetsRef,
+		TSubclassOf<UUserWidget> TargetWidgetClass,
 		bool ShowCursor,
-		bool FocusViewport
+		bool FocusViewport,
+		bool ActionOpen
 		);
 
 	UFUNCTION()
-	static bool CheckDuplicateWidgets(TArray<FWidgetsParent> ArrayWindowsActive, TSubclassOf<UUserWidget> TargetWidgetClass, UPanelWidget* ChildContainer);
+	static bool CheckDuplicateWidgets(TArray<UUserWidget*>& WidgetsRef, TSubclassOf<UUserWidget> TargetWidgetClass, UPanelWidget* ChildContainer);
 
 	// Corrects the Invisibility of the Cursor if it has Not Been Offset
 	UFUNCTION()

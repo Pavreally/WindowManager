@@ -3,14 +3,14 @@
 # Window Manager
 `BETA`<br><br>
 A plugin containing a versatile feature that will help you quickly customize interface logic using UMG in Unreal Engine 5. 
-Blueprints and C++ versions will allow you to apply the most appropriate and convenient way of integration into your projects.
+Blueprints and C++ versions will allow you to apply the most appropriate and convenient way of integration into your projects. 
+<br>(The plugin was pre-packaged on Win64 and Android only.)
 
 # Latest Updates
-`Version 1.3`
-- Refactoring C++ and BP code.
-- Features converted into a plugin for easier installation.
-- Now when deleting all widgets, you don't necessarily have to have a widget open with WM.
-- The plugin was pre-packaged on Win64 and Android only.
+`Version 1.4`
+- Refactoring C++ and BP code. Optimized use of variables.
+- Discarding structure to save memory.
+- Targeted closing of a widget is now supported (if specified in the settings), not just closing the last widget in the stack of already open widgets (now the default if no choice is specified).
 
 ## What it's for:
 - Control important windows so that they are not blocked by anything.
