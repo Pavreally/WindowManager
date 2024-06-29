@@ -43,7 +43,7 @@ An interactive step-by-step tutorial on how to use WM can be found in the file: 
 All sources contain self-documenting code. C++ and BP functions are completely identical and interchangeable.
 
 Description of the main parameters of the main function:<br>
-`TArray<FWidgetsParent> ArrayWindowsActive` - stores active widgets and their names.<br>
+`TArray<UUserWidget*> ArrayWidgetsRef` - stores active widgets and their names.<br>
 `bool bWindowsOpened` - stores information about at least one open widget with WM.<br>
 `bool bActionOpen` - specifies the action of adding the widget (true) or closing it (false).<br>
 `bool bActionCloseAll` - closes all created widgets.<br>
@@ -54,5 +54,5 @@ Description of the main parameters of the main function:<br>
 `bool bFocusViewport` - keeps focus on the viewport.<br>
 `int32 ZOrder` - adjusts the display priority of the widget layer.<br>
 `UPanelWidget* ChildContainer` - target container where the widget will be embedded (can be empty).<br>
-`TArray<FWidgetsParent>& ReturnWindowsActive` - returns an updated list of open widgets.<br>
+`TArray<UUserWidget*> &ReturnArrayWidgetsRef` - returns an updated list of open widgets.<br>
 `bool& bReturnWindowsOpened` - returns information about at least one open widget with WM.<br>
