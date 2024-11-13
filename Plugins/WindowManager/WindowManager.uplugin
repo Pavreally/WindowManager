@@ -1,7 +1,7 @@
 {
 	"FileVersion": 3,
 	"Version": 1,
-	"VersionName": "1.3",
+	"VersionName": "1.5",
 	"FriendlyName": "Window Manager",
 	"Description": "Simplifies window management. C++ and BP version.",
 	"Category": "UI",
@@ -10,7 +10,7 @@
 	"DocsURL": "https://github.com/Pavreally/WindowManager",
 	"MarketplaceURL": "",
 	"SupportURL": "",
-	"EngineVersion": "5.4.0",
+	"EngineVersion": "5.5.0",
 	"CanContainContent": true,
 	"IsBetaVersion": true,
 	"Installed": true,

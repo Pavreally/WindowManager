@@ -186,16 +186,12 @@ void UWindowManagerBPLibrary::RemoveWidget(APlayerController* OwningController, 
 {
 	if (TargetWidgetClass && ActionOpen == false)
 	{
-		int32 CountWidgets = 0;
-		
-		for (UUserWidget* Widget : ArrayWidgetsRef)
+		for (int32 i = 0; i < ArrayWidgetsRef.Num(); i++)
 		{
-			CountWidgets++;
-
-			if (Widget->GetName() == TargetWidgetClass->GetName())
+			if (ArrayWidgetsRef[i]->GetName() == TargetWidgetClass->GetName())
 			{
-				ArrayWidgetsRef.RemoveAt(CountWidgets - 1);
-				Widget->RemoveFromParent();
+				ArrayWidgetsRef[i]->RemoveFromParent();
+				ArrayWidgetsRef.RemoveAt(i);
 				break;
 			}
 		}
