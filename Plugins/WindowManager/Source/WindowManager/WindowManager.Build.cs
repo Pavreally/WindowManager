@@ -39,6 +39,7 @@ public class WindowManager : ModuleRules
 				"Slate",
 				"SlateCore",
 				"UMG",
+				"GameplayTags",
 				// ... add private dependencies that you statically link with here ...	
 			}
 			);

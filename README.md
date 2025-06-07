@@ -2,14 +2,29 @@
 
 # Window Manager
 `BETA`<br><br>
-A plugin containing a versatile feature that will help you quickly customize interface logic using UMG in Unreal Engine 5. 
-Blueprints and C++ versions will allow you to apply the most appropriate and convenient way of integration into your projects. 
-<br><br><i>(The plugin was pre-packaged on Win64 and Android only.)</i>
+A plugin that includes a C++ library of universal widget management functions to help you quickly build interface logic using UMG in Unreal Engine 5.
+
+<br>
+
+> [!NOTE]
+> The plugin has been pre-packaged only for Win64 and Android.
 
 # Latest Updates
-`Version 1.5`
-- Build and recheck performance on Unreal Engine 5.5.0.
-- Refactoring C++ and BP code. The basic functionality has not changed. Optimisation of calculations.
+`Global update`
+`Version 1.6`
+- The plugin has been redesigned and updated for Unreal Engine 5.6.
+- The main function is now more flexible — it no longer requires memory allocation or data arrays. You can even mix different usage approaches.
+- A major C++ refactor was done: the Blueprint-based version was removed, the code was broken down into smaller components, and one universal function was split into four parts for clarity. All optional settings have been grouped into a convenient struct.
+- No more need to manually update arrays — the function now automatically manages the linked data array, handling both saving and removal of entries.
+- Widget tags are now supported (when using a data array). This allows you to remove groups of widgets by tag all at once.
+- Targeted widget removal can now work without a data array — just place the removal function wherever needed and specify the widget class.
+- All function options are now optional and can be enabled or disabled at any time.
+- Several new experimental features have been added:
+1. SmartCursor – automatically hides the cursor when all widgets are closed and none remain on screen.
+2. NoOtherWidgetsInArray – prevents a widget from opening if any other active widgets are present in the data array (works only with arrays).
+3. NoOtherWidgetsGlobal – prevents a widget from opening if any other widget exists globally (always active).
+- Improved keyword search logic.
+- Major improvements to code documentation.
 
 ## What it's for
 - Control important windows so that they are not blocked by anything.
@@ -19,12 +34,14 @@ Blueprints and C++ versions will allow you to apply the most appropriate and con
 - Easily add child windows to the parent widget container.
 
 ## Features
-- Very fast UI logic customization in Unreal Engine!
-- Multi-level window support.
-- Opening windows with replacement.
-- System for important windows (blocks opening of insignificant UI windows).
-- Support adding child windows.
-- Supports both targeting a specific widget for closure (if specified in settings) and closing the most recently opened widget in the array by default (if no specific widget is selected for closure).
+- Extremely fast setup for UI logic in Unreal Engine!
+- Ability to use functions without memory allocation or data arrays.
+- Support for multi-level (nested) windows.
+- Open windows with automatic replacement of existing ones.
+- A priority window system that blocks less important UI windows from opening.
+- Remove specific widgets from virtually anywhere in your project.
+- Support for adding child windows to existing ones.
+- Close widgets by tag, allowing grouped widget management.
 
 ## Install
 1. Make sure the Unreal Engine editor is closed.
@@ -34,25 +51,12 @@ Blueprints and C++ versions will allow you to apply the most appropriate and con
 5. Run the `L_WM_PreviewMap` test level, which is located in the Window Manager Content folder with the test files, and verify that the function works in C++.
 
 ## How to use it?
-An interactive step-by-step tutorial on how to use WM can be found in the file: `BP_PlayerController_WindowManager_demo`, which is located at the path `Plugins\Window Manager Content\DemoFiles\BP\`.
+An interactive step-by-step tutorial on how to use WM can be found in the file: `BP_WM_PlayerController_Demo`, which is located at the path `Plugins\Window Manager Content\DemoFiles\BP\`.
 
 ![Window Manager](./_Misc/Tutorial/Tutorial_1.jpg)
 ![Window Manager](./_Misc/Tutorial/Tutorial_2.jpg)
+![Window Manager](./_Misc/Tutorial/Tutorial_3.jpg)
+![Window Manager](./_Misc/Tutorial/Tutorial_4.jpg)
 
 ## (C++) Documentaion
-All sources contain self-documenting code. C++ and BP functions are completely identical and interchangeable.
-
-Description of the main parameters of the main function:<br>
-`TArray<UUserWidget*> ArrayWidgetsRef` - stores active widgets and their names.<br>
-`bool bWindowsOpened` - stores information about at least one open widget with WM.<br>
-`bool bActionOpen` - specifies the action of adding the widget (true) or closing it (false).<br>
-`bool bActionCloseAll` - closes all created widgets.<br>
-`TSubclassOf<UUserWidget> WidgetClass` - target widget.<br>
-`APlayerController* OwningController` - owning player controller.<br>
-`bool bIsReplaced` - whether the last open widget will be replaced by a new one.<br>
-`bool bShowCursor` - show cursor.<br>
-`bool bFocusViewport` - keeps focus on the viewport.<br>
-`int32 ZOrder` - adjusts the display priority of the widget layer.<br>
-`UPanelWidget* ChildContainer` - target container where the widget will be embedded (can be empty).<br>
-`TArray<UUserWidget*> &ReturnArrayWidgetsRef` - returns an updated list of open widgets.<br>
-`bool& bReturnWindowsOpened` - returns information about at least one open widget with WM.<br>
+All sources contain self-documenting code.
