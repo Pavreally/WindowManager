@@ -48,7 +48,7 @@ A plugin that includes a C++ library of universal widget management functions to
 2. Move the "Plugins" folder to the root folder of your created project.
 3. Run your project to which the "Plugins" folder with WM was added. If a message about restoring the module appears, select "Yes".
 4. Done! The Window Manager folders should appear in the Unreal Engine browser and the plugin should be automatically activated. If the plugin folder is not visible, activate visibility through the browser settings: `Settings > Show Plugin Content`.
-5. Run the `L_WM_PreviewMap` test level, which is located in the Window Manager Content folder with the test files, and verify that the function works in C++.
+5. Run the `L_WindowManager_Demo` test level, which is located in the Window Manager Content folder with the test files, and verify that the function works in C++.
 
 ## How to use it?
 An interactive step-by-step tutorial on how to use WM can be found in the file: `BP_WM_PlayerController_Demo`, which is located at the path `Plugins\Window Manager Content\DemoFiles\BP\`.
