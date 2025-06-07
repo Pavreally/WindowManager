@@ -22,7 +22,7 @@ A plugin that includes a C++ library of universal widget management functions to
 - Several new experimental features have been added:
 1. SmartCursor – automatically hides the cursor when all widgets are closed and none remain on screen.
 2. NoOtherWidgetsInArray – prevents a widget from opening if any other active widgets are present in the data array (works only with arrays).
-3. NoOtherWidgetsGlobal – prevents a widget from opening if any other widget exists globally (always active).
+3. NoOtherWidgetsGlobal – prevents a widget from opening if any other widget exists globally (This option will work in any case).
 - Improved keyword search logic.
 - Major improvements to code documentation.
 
