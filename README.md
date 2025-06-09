@@ -11,7 +11,7 @@ A plugin that includes a C++ library of universal widget management functions to
 
 # Latest Updates
 `Global update`
-`Version 1.6`
+`Version 1.6.1`
 - The plugin has been redesigned and updated for Unreal Engine 5.6.
 - The main function is now more flexible — it no longer requires memory allocation or data arrays. You can even mix different usage approaches.
 - A major C++ refactor was done: the Blueprint-based version was removed, the code was broken down into smaller components, and one universal function was split into four parts for clarity. All optional settings have been grouped into a convenient struct.
@@ -25,23 +25,24 @@ A plugin that includes a C++ library of universal widget management functions to
 3. NoOtherWidgetsGlobal – prevents a widget from opening if any other widget exists globally (This option will work in any case).
 - Improved keyword search logic.
 - Major improvements to code documentation.
+<br>
+Fixes:
+- Fixed a compilation warning in accordance with the updated code maintenance rules in Unreal Engine 5. Removed a false log warning about a non-existent widget after an attempt to remove it.
 
 ## What it's for
-- Control important windows so that they are not blocked by anything.
-- Simplify the logic on how to customize composite windows.
-- Control the focus of windows without adding repetitive logic.
-- Control the cursor display at the same time.
-- Easily add child windows to the parent widget container.
+- Easy and fast setup of the widget management system.
+- Simplified and minimized amount of code to add.
+- Simultaneous configuration of cursor behavior, focus, and the restriction on creating new widgets.
 
 ## Features
-- Extremely fast setup for UI logic in Unreal Engine!
-- Ability to use functions without memory allocation or data arrays.
-- Support for multi-level (nested) windows.
+- Very fast setup of user interface logic in Unreal Engine!
+- Versatile functions for managing widgets can operate in multiple modes — both the standard Unreal Engine mode and with an optional external storage system for greater control.
+- Remove specific widgets from almost anywhere in your project.
+- Support for multi-layered windows with multiple groups.
+- Automatic blocking of new widgets if more important ones have already been added.
 - Open windows with automatic replacement of existing ones.
-- A priority window system that blocks less important UI windows from opening.
-- Remove specific widgets from virtually anywhere in your project.
-- Support for adding child windows to existing ones.
-- Close widgets by tag, allowing grouped widget management.
+- Quickly add child windows to a container with optional content replacement.
+- Mass close widget groups by a specified tag.
 
 ## Install
 1. Make sure the Unreal Engine editor is closed.

@@ -42,7 +42,7 @@ struct FWidgetStorageWM
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Window Manager")
-	UUserWidget* WidgetsRef;
+	TObjectPtr<UUserWidget> WidgetsRef;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Window Manager")
 	FGameplayTag Tag;

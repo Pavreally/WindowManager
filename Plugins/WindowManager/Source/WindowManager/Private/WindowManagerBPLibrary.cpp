@@ -76,6 +76,8 @@ void UWindowManagerBPLibrary::RemoveWidgetWM(TArray<FWidgetStorageWM>& WidgetSto
 	{
 		WidgetStorage[FoundWidgetIndex].WidgetsRef->RemoveFromParent();
 		WidgetStorage.RemoveAt(FoundWidgetIndex);
+
+		return;
 	}
 	
 	UUserWidget* UserWidgetGlobal = FindWidgetReference(OwningController, WidgetStorage, WidgetClass, false);
