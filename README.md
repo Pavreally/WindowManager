@@ -27,7 +27,9 @@ A plugin that includes a C++ library of universal widget management functions to
 - Major improvements to code documentation.
 <br>
 Fixes:
-- Fixed a compilation warning in accordance with the updated code maintenance rules in Unreal Engine 5. Removed a false log warning about a non-existent widget after an attempt to remove it.
+<br>
+- Fixed a compilation warning in accordance with the updated code maintenance rules in Unreal Engine 5. 
+- Fixed log warning about non-existent widget after attempting to delete it.
 
 ## What it's for
 - Easy and fast setup of the widget management system.
@@ -45,6 +47,10 @@ Fixes:
 - Mass close widget groups by a specified tag.
 
 ## Install
+
+> [!NOTE]
+> Starting with Unreal Engine version 5.6, it is recommended to use the new project type based on C++. Otherwise, when creating a new Blueprint project, you may encounter the following error: "Engine modules are out of date, and cannot be compiled while the engine is running. Please build through your IDE." This issue does not occur in a pure C++ project.
+
 1. Make sure the Unreal Engine editor is closed.
 2. Move the "Plugins" folder to the root folder of your created project.
 3. Run your project to which the "Plugins" folder with WM was added. If a message about restoring the module appears, select "Yes".
