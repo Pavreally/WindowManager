@@ -10,26 +10,9 @@ A plugin that includes a C++ library of universal widget management functions to
 > The plugin has been pre-packaged only for Win64 and Android.
 
 # Latest Updates
-`Global update`
-`Version 1.6.1`
-- The plugin has been redesigned and updated for Unreal Engine 5.6.
-- The main function is now more flexible — it no longer requires memory allocation or data arrays. You can even mix different usage approaches.
-- A major C++ refactor was done: the Blueprint-based version was removed, the code was broken down into smaller components, and one universal function was split into four parts for clarity. All optional settings have been grouped into a convenient struct.
-- No more need to manually update arrays — the function now automatically manages the linked data array, handling both saving and removal of entries.
-- Widget tags are now supported (when using a data array). This allows you to remove groups of widgets by tag all at once.
-- Targeted widget removal can now work without a data array — just place the removal function wherever needed and specify the widget class.
-- All function options are now optional and can be enabled or disabled at any time.
-- Several new experimental features have been added:
-1. SmartCursor – automatically hides the cursor when all widgets are closed and none remain on screen.
-2. NoOtherWidgetsInArray – prevents a widget from opening if any other active widgets are present in the data array (works only with arrays).
-3. NoOtherWidgetsGlobal – prevents a widget from opening if any other widget exists globally (This option will work in any case).
-- Improved keyword search logic.
-- Major improvements to code documentation.
-<br>
-Fixes:
-<br>
-- Fixed a compilation warning in accordance with the updated code maintenance rules in Unreal Engine 5. 
-- Fixed log warning about non-existent widget after attempting to delete it.
+`Version 1.6.2`
+- The plugin version has been updated to support Unreal Engine 5.7.
+- The plugin’s functionality and its compilation for Windows and Android have been verified.
 
 ## What it's for
 - Easy and fast setup of the widget management system.
